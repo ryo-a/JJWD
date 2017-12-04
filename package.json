@@ -1,0 +1,11 @@
+{
+  "name": "jjdw",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "ryo-a",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio-httpcli": "^0.7.2",
+    "csv-parse": "^2.0.0"
+  }
+}
