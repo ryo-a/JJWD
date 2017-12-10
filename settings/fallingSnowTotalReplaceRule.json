@@ -1,0 +1,21 @@
+{
+  "about":"累積降雪量(smsnd_sm00_rct.csv)のための置換データ",
+  "useRegExp":true,
+  "観測所番号":"stn",
+  "都道府県":"pref",
+  "国際地点番号":"intlStn",
+  "地点":"point",
+  "現在時刻\\(年\\)":"year",
+  "現在時刻\\(月\\)":"month",
+  "現在時刻\\(日\\)":"day",
+  "現在時刻\\(時\\)":"hour",
+  "現在時刻\\(分\\)":"min",
+  "累積降雪量（cm）":"fallingSnow24h",
+  "累積降雪量の品質情報":"fallingSnow24hQ",
+  "起算年":"fallingSnowStartyear",
+  "起算月":"fallingSnowStartmonth",
+  "起算日":"fallingSnowStartday",
+  "平年比（%）":"fallingSnowRatio",
+  "平年値（cm）":"fallingSnowAvg",
+  "平年値の品質情報":"fallingSnowQ"
+}
