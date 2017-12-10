@@ -1,15 +1,15 @@
 {
-  "pre1hRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre1h00_rct.csv",
-  "pre3hRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre3h00_rct.csv",
-  "pre24hRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre24h00_rct.csv",
-  "pre48hRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre48h00_rct.csv",
-  "pre72hRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre72h00_rct.csv",
-  "preAllRainURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/preall00_rct.csv",
+  "rain1hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre1h00_rct.csv",
+  "rain3hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre3h00_rct.csv",
+  "rain24hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre24h00_rct.csv",
+  "rain48hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre48h00_rct.csv",
+  "rain72hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/pre72h00_rct.csv",
+  "rainAllURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/pre_rct/alltable/preall00_rct.csv",
   "maxWindURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/wind_rct/alltable/mxwsp00_rct.csv",
   "maxIntWindURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/wind_rct/alltable/gust00_rct.csv",
   "maxTempURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/tem_rct/alltable/mxtemsadext00_rct.csv",
   "minTempURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/tem_rct/alltable/mntemsadext00_rct.csv",
-  "fallenSnowURL" : "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/snc00_rct.csv",
-  "pre24hFallingSnow": "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/snf24h00_rct.csv",
-  "totalFallingSnow": "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/smsnd_sm00_rct.csv"
+  "snowDepthURL" : "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/snc00_rct.csv",
+  "fallingSnow24hURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/snf24h00_rct.csv",
+  "fallingSnowTotalURL": "http://www.data.jma.go.jp/obd/stats/data/mdrr/snc_rct/alltable/smsnd_sm00_rct.csv"
 }
