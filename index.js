@@ -9,89 +9,69 @@ const environment = require('./settings/env.json');
 const jmaURL = require('./settings/url.json');
 const rainReplaceRule = require('./settings/rainReplaceRule.json');
 const rainReplaceRule1h = require('./settings/rainReplaceRule1h.json');
+const rainReplaceRule3h = require('./settings/rainReplaceRule3h.json');
+const rainReplaceRule24h = require('./settings/rainReplaceRule24h.json');
+const rainReplaceRule48h = require('./settings/rainReplaceRule48h.json');
+const rainReplaceRule72h = require('./settings/rainReplaceRule72h.json');
+const maxWindReplaceRule = require('./settings/maxWindReplaceRule.json');
+const maxIntWindReplaceRule = require('./settings/maxIntWindReplaceRule.json');
+const maxTempReplaceRule = require('./settings/maxTempReplaceRule.json');
+const minTempReplaceRule = require('./settings/minTempReplaceRule.json');
+const snowDepthReplaceRule = require('./settings/snowDepthReplaceRule.json');
+const fallingSnow24hReplaceRule = require('./settings/fallingSnow24hReplaceRule.json');
+const fallingSnowTotalReplaceRule = require('./settings/fallingSnowTotalReplaceRule.json');
 
 
-client.fetch(jmaURL.preAllRainURL, 'sjis', function (err, $, res, body) {
-  let input = csvHeaderReplacerWithJSON($.html(),rainReplaceRule);
-  let result = parse(input, { columns: true });
-  fs.writeFileSync(environment.outputPath + '/amedas-rain-all.json', JSON.stringify(result), 'utf8');
+/* fetch and save file */
 
-   //deletation
-   for (var i = 0; i < Object.keys(result).length; i++) {
-    //delete result[i].pref;
+getCSVandSaveJSON(jmaURL.rain1hURL, rainReplaceRule1h, 'amedas-rain-1h-recent.json');
+getCSVandSaveJSON(jmaURL.rain3hURL, rainReplaceRule3h, 'amedas-rain-3h-recent.json');
+getCSVandSaveJSON(jmaURL.rain24hURL, rainReplaceRule24h, 'amedas-rain-24h-recent.json');
+getCSVandSaveJSON(jmaURL.rain48hURL, rainReplaceRule48h, 'amedas-rain-48h-recent.json');
+getCSVandSaveJSON(jmaURL.rain72hURL, rainReplaceRule72h, 'amedas-rain-72h-recent.json');
+getCSVandSaveJSON(jmaURL.rainAllURL, rainReplaceRule, 'amedas-rain-all-recent.json');
+
+getCSVandSaveJSON(jmaURL.maxWindURL, maxWindReplaceRule, 'amedas-max-wind-speed-recent.json');
+getCSVandSaveJSON(jmaURL.maxIntWindURL, maxIntWindReplaceRule, 'amedas-max-instantaneous-wind-speed-recent.json');
+
+getCSVandSaveJSON(jmaURL.maxTempURL, maxTempReplaceRule, 'amedas-max-temperature-recent.json');
+getCSVandSaveJSON(jmaURL.minTempURL, minTempReplaceRule, 'amedas-min-temperature-recent.json');
+
+getCSVandSaveJSON(jmaURL.snowDepthURL, snowDepthReplaceRule, 'amedas-snow-depth-recent.json');
+getCSVandSaveJSON(jmaURL.fallingSnow24hURL, fallingSnow24hReplaceRule, 'amedas-falling-snow-24h-recent.json');
+getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json');
+
+
+function getCSVandSaveJSON(target, rule, filename, gzip,gzipfilename) {
+
+  if (gzip == undefined) {
+    gzip = false;
   }
 
-});
-
-client.fetch(jmaURL.pre1hRainURL, 'sjis', function (err, $, res, body) {
-  let input = csvHeaderReplacerWithJSON($.html(),rainReplaceRule1h);
-  let result = parse(input, { columns: true });
-  fs.writeFileSync(environment.outputPath + '/amedas-rain-1h.json', JSON.stringify(result), 'utf8');
-
-  //gzip test
-  zlib.gzip(JSON.stringify(result), function (err, binary) {
-    fs.writeFileSync(environment.outputPath + 'amedas-rain-all.json.gz', binary);
+  client.fetch(target, 'sjis', function (err, $, res, body) {
+    let input = csvHeaderReplacerWithJSON($.html(), rule);
+    let result = parse(input, { columns: true, relax_column_count: true });
+    fs.writeFileSync(environment.outputPath + '/' + filename, JSON.stringify(result), 'utf8');
+    if (gzip == true) {
+      zlib.gzip(JSON.stringify(result), function (err, binary) {
+        fs.writeFileSync(environment.outputPath + gzipfilename, binary);
+      });
+    }
   });
-});
+};
 
-function csvHeaderReplacerWithJSON(target,ruleJSON){
+function csvHeaderReplacerWithJSON(target, ruleJSON) {
   let result = target;
+  let regExpMode = ruleJSON.useRegExp;
 
-  //TODO: JSON内の useRegExpがtrueならRegExp使うようにしたい
   for (var key in ruleJSON) {
-    let keyRegExp = key; //new RegExp(key, 'g');
-    result = result.replace(keyRegExp, ruleJSON[key]);
+    var keystring = key;
+
+    if (regExpMode == true) {
+      keystring = new RegExp(key);
+    }
+
+    result = result.replace(keystring, ruleJSON[key]);
   }
-  return result;
-}
-
-
-function csvReplacerCommon(target) {
-  var result =
-    target.replace(/観測所番号/g, 'stnId')
-      .replace(/都道府県/g, 'pref')
-      .replace(/国際地点番号/g, 'intlStnId')
-      .replace(/地点/g, 'point')
-      .replace(/現在時刻\(年\)/g, 'year')
-      .replace(/現在時刻\(月\)/g, 'month')
-      .replace(/現在時刻\(日\)/g, 'day')
-      .replace(/現在時刻\(時\)/g, 'hour')
-      .replace(/現在時刻\(分\)/g, 'min');
-
-  return result;
-}
-
-function csvHeaderReplacer(target) {
-  var result =
-    target.replace(/観測所番号/g, 'stnId')
-      .replace(/都道府県/g, 'pref')
-      .replace(/国際地点番号/g, 'intlStnId')
-      .replace(/地点/g, 'point')
-      .replace(/現在時刻\(年\)/g, 'year')
-      .replace(/現在時刻\(月\)/g, 'month')
-      .replace(/現在時刻\(日\)/g, 'day')
-      .replace(/現在時刻\(時\)/g, 'hour')
-      .replace(/現在時刻\(分\)/g, 'min')
-      .replace(/現在値\(mm\)/g, 'data')
-      .replace(/現在値の品質情報/g, 'quality')
-      .replace(/今日の最大値\(mm\)/g, 'tdMaxData')
-      .replace(/今日の最大値の品質情報/g, 'tdMaxQuality')
-      .replace(/今日の最大値起時（時）\(まで\)/g, 'tdMaxHour')
-      .replace(/今日の最大値起時（分）\(まで\)/g, 'tdMaxMin')
-      .replace(/今日の最大値起時\(まで\)の品質情報/g, 'tdMaxQC')
-      .replace(/10年未満での極値更新/g, 'record10')
-      .replace(/極値更新/g, 'record')
-      .replace(/昨日までの観測史上1位の値\(mm\)/g, 'recordData')
-      .replace(/昨日までの観測史上1位の値の品質情報/g, 'recordQuality')
-      .replace(/昨日までの観測史上1位の値の年/g, 'recordYear')
-      .replace(/昨日までの観測史上1位の値の月/g, 'recordMonth')
-      .replace(/昨日までの観測史上1位の値の日/g, 'recordDay')
-      .replace(/昨日までの([1-9]|1[012])月の1位の値\(mm\)/g, 'recordSameMonthData')
-      .replace(/昨日までの([1-9]|1[012])月の1位の値の品質情報/g, 'recordSameMonthQuality')
-      .replace(/昨日までの([1-9]|1[012])月の1位の値の年/g, 'recordSameMonthYear')
-      .replace(/昨日までの([1-9]|1[012])月の1位の値の月/g, 'recordSameMonthMonth')
-      .replace(/昨日までの([1-9]|1[012])月の1位の値の日/g, 'recordSameMonthDay')
-      .replace(/統計開始年/g, 'startYear');
-
   return result;
 }
