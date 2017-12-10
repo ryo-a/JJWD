@@ -3,6 +3,10 @@ const csv = require('csv-parse');
 const parse = require('csv-parse/lib/sync'); // requiring sync module
 const fs = require('fs');
 const zlib = require('zlib');
+const cron = require('node-cron');
+
+
+
 
 /* read settings file */
 const environment = require('./settings/env.json');
@@ -24,23 +28,32 @@ const fallingSnowTotalReplaceRule = require('./settings/fallingSnowTotalReplaceR
 
 /* fetch and save file */
 
-getCSVandSaveJSON(jmaURL.rain1hURL, rainReplaceRule1h, 'amedas-rain-1h-recent.json');
-getCSVandSaveJSON(jmaURL.rain3hURL, rainReplaceRule3h, 'amedas-rain-3h-recent.json');
-getCSVandSaveJSON(jmaURL.rain24hURL, rainReplaceRule24h, 'amedas-rain-24h-recent.json');
-getCSVandSaveJSON(jmaURL.rain48hURL, rainReplaceRule48h, 'amedas-rain-48h-recent.json');
-getCSVandSaveJSON(jmaURL.rain72hURL, rainReplaceRule72h, 'amedas-rain-72h-recent.json');
-getCSVandSaveJSON(jmaURL.rainAllURL, rainReplaceRule, 'amedas-rain-all-recent.json');
+/* every 10 minutes */
+cron.schedule('45 */10 * * * *', function(){
+  getCSVandSaveJSON(jmaURL.rain1hURL, rainReplaceRule1h, 'amedas-rain-1h-recent.json');
+  getCSVandSaveJSON(jmaURL.rain3hURL, rainReplaceRule3h, 'amedas-rain-3h-recent.json');
+  getCSVandSaveJSON(jmaURL.rain24hURL, rainReplaceRule24h, 'amedas-rain-24h-recent.json');
+  getCSVandSaveJSON(jmaURL.rain48hURL, rainReplaceRule48h, 'amedas-rain-48h-recent.json');
+  getCSVandSaveJSON(jmaURL.rain72hURL, rainReplaceRule72h, 'amedas-rain-72h-recent.json');
+  getCSVandSaveJSON(jmaURL.rainAllURL, rainReplaceRule, 'amedas-rain-all-recent.json');
+});
 
-getCSVandSaveJSON(jmaURL.maxWindURL, maxWindReplaceRule, 'amedas-max-wind-speed-recent.json');
-getCSVandSaveJSON(jmaURL.maxIntWindURL, maxIntWindReplaceRule, 'amedas-max-instantaneous-wind-speed-recent.json');
+/* every 4:00 JST */
+cron.schedule('45 0 04 * * *', function(){
+  getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json');
+});
 
-getCSVandSaveJSON(jmaURL.maxTempURL, maxTempReplaceRule, 'amedas-max-temperature-recent.json');
-getCSVandSaveJSON(jmaURL.minTempURL, minTempReplaceRule, 'amedas-min-temperature-recent.json');
-
-getCSVandSaveJSON(jmaURL.snowDepthURL, snowDepthReplaceRule, 'amedas-snow-depth-recent.json');
-getCSVandSaveJSON(jmaURL.fallingSnow24hURL, fallingSnow24hReplaceRule, 'amedas-falling-snow-24h-recent.json');
-getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json');
-
+/* every *:50:45 */
+cron.schedule('45 50 */1 * * *', function(){
+  getCSVandSaveJSON(jmaURL.maxWindURL, maxWindReplaceRule, 'amedas-max-wind-speed-recent.json');
+  getCSVandSaveJSON(jmaURL.maxIntWindURL, maxIntWindReplaceRule, 'amedas-max-instantaneous-wind-speed-recent.json');
+  
+  getCSVandSaveJSON(jmaURL.maxTempURL, maxTempReplaceRule, 'amedas-max-temperature-recent.json');
+  getCSVandSaveJSON(jmaURL.minTempURL, minTempReplaceRule, 'amedas-min-temperature-recent.json');
+  
+  getCSVandSaveJSON(jmaURL.snowDepthURL, snowDepthReplaceRule, 'amedas-snow-depth-recent.json');
+  getCSVandSaveJSON(jmaURL.fallingSnow24hURL, fallingSnow24hReplaceRule, 'amedas-falling-snow-24h-recent.json');
+});
 
 function getCSVandSaveJSON(target, rule, filename, gzip,gzipfilename) {
 
