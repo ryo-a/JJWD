@@ -19,6 +19,7 @@
   "前日差（℃）":"maxTempDevYest",
   "該当旬（月）":"maxTempSmonth",
   "該当旬（旬）":"maxTempSseason",
+  "極値更新":"maxTempExt",
   "10年未満での極値更新":"maxTempExtU10",
   "今年最高":"maxTempIsYR",
   "今年の最高気温（℃\\)（昨日まで）":"maxTempYR",

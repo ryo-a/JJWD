@@ -19,6 +19,7 @@
   "前日差（℃）":"minTempDevYest",
   "該当旬（月）":"minTempSmonth",
   "該当旬（旬）":"minTempSseason",
+  "極値更新":"minTempExt",
   "10年未満での極値更新":"minTempExtU10",
   "今季最低":"minTempIsSR",
   "今年の最低気温（℃\\)（昨日まで）":"minTempYR",
