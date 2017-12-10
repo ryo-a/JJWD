@@ -5,10 +5,7 @@ const fs = require('fs');
 const zlib = require('zlib');
 const cron = require('node-cron');
 
-
-
-
-/* read settings file */
+/*------------- read settings file -------------*/
 const environment = require('./settings/env.json');
 const jmaURL = require('./settings/url.json');
 const rainReplaceRule = require('./settings/rainReplaceRule.json');
@@ -26,8 +23,7 @@ const fallingSnow24hReplaceRule = require('./settings/fallingSnow24hReplaceRule.
 const fallingSnowTotalReplaceRule = require('./settings/fallingSnowTotalReplaceRule.json');
 
 
-/* fetch and save file */
-
+/*------------- fetch and save file -------------*/
 /* every 10 minutes */
 cron.schedule('45 */10 * * * *', function(){
   getCSVandSaveJSON(jmaURL.rain1hURL, rainReplaceRule1h, 'amedas-rain-1h-recent.json');
@@ -54,6 +50,9 @@ cron.schedule('45 50 */1 * * *', function(){
   getCSVandSaveJSON(jmaURL.snowDepthURL, snowDepthReplaceRule, 'amedas-snow-depth-recent.json');
   getCSVandSaveJSON(jmaURL.fallingSnow24hURL, fallingSnow24hReplaceRule, 'amedas-falling-snow-24h-recent.json');
 });
+
+
+
 
 function getCSVandSaveJSON(target, rule, filename, gzip,gzipfilename) {
 
