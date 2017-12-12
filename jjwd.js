@@ -33,8 +33,8 @@ cron.schedule('45 */10 * * * *', function(){
   getCSVandSaveJSON(jmaURL.rainAllURL, rainReplaceRule, 'amedas-rain-all-recent.json' ,true);
 });
 
-/* every 4:00 JST */
-cron.schedule('45 0 04 * * *', function(){
+/* every one hour */
+cron.schedule('01 * * * *', function(){
   getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json' ,true);
 });
 
