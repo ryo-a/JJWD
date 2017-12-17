@@ -31,11 +31,12 @@ cron.schedule('45 */10 * * * *', function(){
   getCSVandSaveJSON(jmaURL.rain48hURL, rainReplaceRule48h, 'amedas-rain-48h-recent.json' ,true);
   getCSVandSaveJSON(jmaURL.rain72hURL, rainReplaceRule72h, 'amedas-rain-72h-recent.json' ,true);
   getCSVandSaveJSON(jmaURL.rainAllURL, rainReplaceRule, 'amedas-rain-all-recent.json' ,true);
+  getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json' ,true);
 });
 
 /* every one hour */
 cron.schedule('01 * * * *', function(){
-  getCSVandSaveJSON(jmaURL.fallingSnowTotalURL, fallingSnowTotalReplaceRule, 'amedas-falling-snow-total-recent.json' ,true);
+  
 });
 
 /* every *:50:45 */
